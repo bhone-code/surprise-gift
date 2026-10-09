@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Secret Note For You</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap');
+        
+        body {
+            background-color: #fce4ec;
+            overflow-x: hidden;
+            font-family: 'Playfair Display', serif;
+        }
+
+        .heart {
+            position: fixed;
+            top: -10vh;
+            transform: translateY(0);
+            animation: fall 10s linear infinite;
+            z-index: 0;
+            color: #ff80ab;
+            font-size: 1.5rem;
+            opacity: 0.6;
+            pointer-events: none;
+        }
+        @keyframes fall {
+            100% { transform: translateY(110vh); }
+        }
+
+        .hero-img {
+            opacity: 0;
+            transform: translateY(50px) rotate(-5deg);
+            animation: fadeInUp 1.5s forwards;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            background: white;
+            padding: 10px;
+            padding-bottom: 30px;
+            border-radius: 4px;
+        }
+        .hero-img:nth-child(2) {
+            animation-delay: 1.5s;
+            transform: translateY(50px) rotate(3deg);
+        }
+        .hero-img:nth-child(3) {
+            animation-delay: 3s;
+            transform: translateY(50px) rotate(-2deg);
+        }
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0) rotate(var(--rotation));
+            }
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(80px);
+            transition: all 1.2s ease-out;
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .letter-paper {
+            background: #fff;
+            background-image: linear-gradient(#f9f9f9 90%, transparent 90%);
+            background-size: 100% 30px;
+            box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.05);
+            border-radius: 8px;
+        }
+
+        .bounce {
+            animation: bounce 2s infinite;
+        }
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
+            40% {transform: translateY(-20px);}
+            60% {transform: translateY(-10px);}
+        }
+    </style>
+</head>
+<body class="relative">
+
+    <div id="hearts-container"></div>
+
+    <div class="min-h-screen flex flex-col items-center justify-center relative z-10 p-4 pt-16">
+        <div class="flex flex-wrap justify-center gap-6 md:gap-12 w-full max-w-4xl">
+            <div class="hero-img w-48 md:w-64" style="--rotation: -4deg;">
+                <img src="pic1.jpg" alt="The Beginning" class="w-full h-auto object-cover rounded" onerror="this.src='https://via.placeholder.com/300x400?text=Photo+1'">
+                <p class="text-center font-['Dancing_Script'] text-xl text-rose-600 mt-4">The Beginning</p>
+            </div>
+            <div class="hero-img w-48 md:w-64" style="--rotation: 3deg;">
+                <img src="pic2.jpg" alt="My Everything" class="w-full h-auto object-cover rounded" onerror="this.src='https://via.placeholder.com/300x400?text=Photo+2'">
+                <p class="text-center font-['Dancing_Script'] text-xl text-rose-600 mt-4">My Everything</p>
+            </div>
+            <div class="hero-img w-48 md:w-64" style="--rotation: -2deg;">
+                <img src="pic3.jpg" alt="Forever" class="w-full h-auto object-cover rounded" onerror="this.src='https://via.placeholder.com/300x400?text=Photo+3'">
+                <p class="text-center font-['Dancing_Script'] text-xl text-rose-600 mt-4">Forever</p>
+            </div>
+        </div>
+
+        <div class="absolute bottom-10 text-rose-400 flex flex-col items-center bounce" style="animation-delay: 5s; opacity: 0; animation: fadeIn 1s forwards 5s, bounce 2s infinite 5s;">
+            <p class="text-sm mb-2 uppercase tracking-widest font-semibold">Scroll Down</p>
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg>
+        </div>
+    </div>
+
+    <div class="min-h-screen flex flex-col items-center justify-center p-6 relative z-10 reveal">
+        <h2 class="text-3xl md:text-4xl text-rose-800 font-bold mb-8">A Secret Note</h2>
+        
+        <div class="letter-paper p-8 md:p-12 max-w-2xl w-full text-gray-700 leading-loose text-base md:text-lg">
+            <p class="font-['Dancing_Script'] text-2xl mb-4 text-rose-600">"ကျွန်တော့်ရဲ့ မိန်းမလှလေး၊ ကျွန်တော့်ရဲ့ ဂုဏ်ယူရဆုံး ရတနာလေး" 🤍</p>
+            
+            <p class="mb-4">လွန်ခဲ့တဲ့ နှစ်အနည်းငယ်ကသာ တစ်စုံတစ်ယောက်က ကျွန်တော့်လို လူတစ်ယောက် — သူများထက် ၁၁ နှစ် ပိုကြီးပြီး၊ အကျင့်စရိုက်တွေ ပုံသေဖြစ်နေကာ၊ အသက်ကြီးလာတာကို ငြိမ်သက်စွာ လက်ခံထားတဲ့သူတစ်ယောက်ဟာ — သူများနဲ့မတူ ထူးခြားလှပတဲ့ မိန်းကလေးတစ်ယောက်နဲ့ ဆုံစည်းရလိမ့်မယ်လို့ ပြောခဲ့ရင် ကျွန်တော် ရယ်မောပစ်မိမှာပါ။</p>
+            
+            <p class="mb-4">ဒါပေမဲ့ အခုတော့ ကျွန်တော့်ထက် ၁၁ နှစ် ငယ်တဲ့ ဇနီးလေးကို ငေးကြည့်ရင်း 'ငါ ဘဝဟောင်းက ဘာကောင်းမှုတွေ လုပ်ခဲ့လို့များ ဒီလို ကျေးဇူးတရားမျိုး ရရှိခဲ့ရတာလဲ' လို့ တွေးတောမိနေပါတယ်။ သူ့ကို ကြည့်လိုက်တိုင်း ကျွန်တော့်ရင်ထဲမှာ ဖခင်တစ်ယောက်လို နွေးထွေးတဲ့ မေတ္တာတရားတွေ တိုးဝင်လာတတ်ပါတယ် — သူ့ကို ရင်ခွင်ထဲ ထည့်ထားချင်စိတ်၊ ဒီကမ္ဘာကြီးရဲ့ အေးစက်တဲ့ လေပြင်းတွေဒဏ်ကနေ ကာကွယ်ပေးချင်စိတ်နဲ့ အဆုံးအစမရှိ အလိုလိုက်ချင်စိတ်တွေကို ဖြစ်ပေါ်စေတဲ့ နက်ရှိုင်းတဲ့ ကာကွယ်စောင့်ရှောက်လိုသော ချစ်ခြင်းမျိုးပါ။</p>
+
+            <p class="mb-4">ကျွန်တော်တို့ မင်္ဂလာမဆောင်ခင်က သူ့အရွယ်လေး အရမ်းငယ်သေးတာကို မြင်တော့ အိမ်ထောင်တစ်ခုကို ထိန်းသိမ်းရတဲ့ တာဝန်ဝတ္တရားတွေကို သူ နိုင်နင်းစွာ ထမ်းဆောင်နိုင်ပါ့မလားလို့ တွေးမိခဲ့ဖူးပါတယ်။ ဒါပေမဲ့ ကျွန်တော့်ရဲ့ ဇနီးအဖြစ် ကျွန်တော့်အိမ်ထဲကို လှမ်းဝင်လာတဲ့ စက္ကန့်ကစလို့ သူ ကျွန်တော့်ကို လုံးဝ အံ့အားသင့်သွားစေခဲ့ပါတယ်။ သူဟာ ကျွန်တော် စိတ်ကူးယဉ်ခဲ့ဖူးသမျှထဲမှာ အတော်ဆုံး အိမ်ရှင်မကောင်းတစ်ယောက်ပါပဲ။</p>
+
+            <p class="mb-4">အမှန်အတိုင်း ပြောရရင်တော့... အခါခါ စိတ်ထဲမှာ မတန်ဘူးလို့ ခံစားရတာမျိုး ရှိပါတယ်။ သူ့မှာ လူငယ်ဘဝ အပြည့်ရှိခဲ့ပြီး ရွေးချယ်စရာတွေ အများကြီးရှိခဲ့ပေမဲ့ ကျွန်တော့်ကိုပဲ ရွေးချယ်ခဲ့တာပါ။ သူဟာ ကျွန်တော့်ရဲ့ ဇနီးဖြစ်ရုံတင် မဟုတ်ပါဘူး။ သူဟာ ကျွန်တော့်ရဲ့ ဂုဏ်ယူမှု၊ ကျွန်တော့်ဘဝရဲ့ အကြီးမားဆုံး ကောင်းချီး ဖြစ်တာမို့ ကျွန်တော့်မှာရှိတဲ့ အရာအားလုံးနဲ့ ဘဝတစ်ခုလုံး ပေးဆပ်ပြီး ကာကွယ်ချစ်ခင်သွားမယ်ဆိုတဲ့ ကတိကိုထာဝရပေးပါတယ်။</p>
+
+            <p class="mt-8 font-['Dancing_Script'] text-2xl text-rose-600 text-right">Forever Yours,<br>Ko Ko (15.10.2024)</p>
+        </div>
+    </div>
+
+    <div class="py-16 flex flex-col items-center justify-center bg-white/50 relative z-10 reveal">
+        <h2 class="text-3xl font-['Dancing_Script'] text-rose-600 mb-6">Every second with you is a gift</h2>
+        
+        <div class="flex gap-4 text-center">
+            <div class="bg-white p-4 rounded-lg shadow-sm min-w-[80px]">
+                <div id="days" class="text-2xl font-bold text-rose-500">0</div>
+                <div class="text-xs text-gray-500 uppercase">Days</div>
+            </div>
+            <div class="bg-white p-4 rounded-lg shadow-sm min-w-[80px]">
+                <div id="hours" class="text-2xl font-bold text-rose-500">0</div>
+                <div class="text-xs text-gray-500 uppercase">Hours</div>
+            </div>
+            <div class="bg-white p-4 rounded-lg shadow-sm min-w-[80px]">
+                <div id="mins" class="text-2xl font-bold text-rose-500">0</div>
+                <div class="text-xs text-gray-500 uppercase">Mins</div>
+            </div>
+            <div class="bg-white p-4 rounded-lg shadow-sm min-w-[80px]">
+                <div id="secs" class="text-2xl font-bold text-rose-500">0</div>
+                <div class="text-xs text-gray-500 uppercase">Secs</div>
+            </div>
+        </div>
+        <p class="mt-12 text-3xl md:text-4xl font-['Dancing_Script'] text-rose-800">Will you be my forever?</p>
+    </div>
+
+    <script>
+        const heartsContainer = document.getElementById('hearts-container');
+        const heartSymbols = ['❤️', '💖', '💕', '🌸', '✨'];
+        
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.classList.add('heart');
+            heart.innerText = heartSymbols[Math.floor(Math.random() * heartSymbols.length)];
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.animationDuration = Math.random() * 5 + 8 + 's';
+            heart.style.fontSize = Math.random() * 1 + 1 + 'rem';
+            heartsContainer.appendChild(heart);
+            setTimeout(() => heart.remove(), 13000);
+        }
+        setInterval(createHeart, 500);
+
+        function reveal() {
+            var reveals = document.querySelectorAll(".reveal");
+            for (var i = 0; i < reveals.length; i++) {
+                var windowHeight = window.innerHeight;
+                var elementTop = reveals[i].getBoundingClientRect().top;
+                var elementVisible = 150;
+                if (elementTop < windowHeight - elementVisible) {
+                    reveals[i].classList.add("active");
+                }
+            }
+        }
+        window.addEventListener("scroll", reveal);
+
+        const startDate = new Date("2024-10-15T00:00:00").getTime();
+        
+        setInterval(function() {
+            const now = new Date().getTime();
+            const distance = now - startDate;
+            
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+            
+            document.getElementById("days").innerText = days;
+            document.getElementById("hours").innerText = hours.toString().padStart(2, '0');
+            document.getElementById("mins").innerText = minutes.toString().padStart(2, '0');
+            document.getElementById("secs").innerText = seconds.toString().padStart(2, '0');
+        }, 1000);
+    </script>
+</body>
+</html>
