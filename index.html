@@ -14,6 +14,11 @@
             font-family: 'Playfair Display', serif;
         }
 
+        /* Intro Overlay Animation */
+        #introOverlay {
+            transition: opacity 1s ease-in-out;
+        }
+
         .heart {
             position: fixed;
             top: -10vh;
@@ -29,18 +34,21 @@
             100% { transform: translateY(110vh); }
         }
 
+        /* Polaroid Images (Initial State Hidden) */
         .hero-img {
             opacity: 0;
-            transform: translateY(50px) rotate(-5deg);
-            animation: fadeInUp 1.5s forwards;
+            transform: translateY(50px) rotate(var(--rotation));
             box-shadow: 0 10px 20px rgba(0,0,0,0.1);
             background: white;
-            padding: 10px;
-            padding-bottom: 30px;
             border-radius: 4px;
         }
-        .hero-img:nth-child(2) { animation-delay: 1.5s; transform: translateY(50px) rotate(3deg); }
-        .hero-img:nth-child(3) { animation-delay: 3s; transform: translateY(50px) rotate(-2deg); }
+        
+        /* Play Animation when 'animate' class is added */
+        .hero-img.animate {
+            animation: fadeInUp 1.5s forwards;
+        }
+        .hero-img:nth-child(2).animate { animation-delay: 0.5s; }
+        .hero-img:nth-child(3).animate { animation-delay: 1s; }
         
         @keyframes fadeInUp {
             to { opacity: 1; transform: translateY(0) rotate(var(--rotation)); }
@@ -117,11 +125,19 @@
 </head>
 <body class="relative">
 
+    <!-- 1. INTRO SCREEN (Tap to open) -->
+    <div id="introOverlay" class="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-[#fce4ec] cursor-pointer" onclick="startExperience()">
+        <div class="animate-bounce mb-6 text-6xl">💌</div>
+        <h1 class="font-['Dancing_Script'] text-4xl md:text-5xl text-rose-600 text-center px-4 font-bold">A Special Surprise For You</h1>
+        <p class="mt-6 text-rose-400 font-['Playfair_Display'] italic text-lg animate-pulse">Tap anywhere to open</p>
+    </div>
+
+    <!-- AUDIO -->
     <audio id="bgMusic" loop>
         <source src="music.mp3" type="audio/mpeg">
     </audio>
 
-    <div id="musicBtn" class="music-btn" onclick="toggleMusic()">
+    <div id="musicBtn" class="music-btn hidden" onclick="toggleMusic()">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3" />
         </svg>
@@ -129,52 +145,59 @@
 
     <div id="hearts-container"></div>
 
-    <div class="min-h-screen flex flex-col items-center justify-center relative z-10 p-4 pt-16">
-        <div class="flex flex-wrap justify-center gap-6 md:gap-12 w-full max-w-4xl">
-            <div class="hero-img w-48 md:w-64" style="--rotation: -4deg;">
+    <!-- 2. HERO SECTION (Images Side by Side on Mobile) -->
+    <div class="min-h-screen flex flex-col items-center justify-center relative z-10 p-2 md:p-4 pt-16">
+        <!-- Changed to flex-row and flex-nowrap to keep them side-by-side -->
+        <div class="flex flex-row flex-nowrap justify-center items-center gap-2 md:gap-12 w-full max-w-5xl px-2">
+            
+            <div class="hero-img w-[30vw] md:w-64 p-1 pb-3 md:p-3 md:pb-8" style="--rotation: -4deg;">
                 <img src="6204081556612125657.jpg" alt="The Beginning" class="w-full h-auto object-cover rounded" onerror="this.src='https://via.placeholder.com/300x400?text=Photo+1'">
-                <p class="text-center font-['Dancing_Script'] text-2xl text-rose-600 mt-4 font-bold">The Beginning</p>
+                <p class="text-center font-['Dancing_Script'] text-[12px] md:text-2xl text-rose-600 mt-1 md:mt-4 font-bold">The Beginning</p>
             </div>
-            <div class="hero-img w-48 md:w-64" style="--rotation: 3deg;">
+            
+            <div class="hero-img w-[32vw] md:w-64 p-1 pb-3 md:p-3 md:pb-8 z-10" style="--rotation: 2deg;">
                 <img src="6206113935136592544.jpg" alt="My Everything" class="w-full h-auto object-cover rounded" onerror="this.src='https://via.placeholder.com/300x400?text=Photo+2'">
-                <p class="text-center font-['Dancing_Script'] text-2xl text-rose-600 mt-4 font-bold">My Everything</p>
+                <p class="text-center font-['Dancing_Script'] text-[12px] md:text-2xl text-rose-600 mt-1 md:mt-4 font-bold">My Everything</p>
             </div>
-            <div class="hero-img w-48 md:w-64" style="--rotation: -2deg;">
+            
+            <div class="hero-img w-[30vw] md:w-64 p-1 pb-3 md:p-3 md:pb-8" style="--rotation: -3deg;">
                 <img src="6206113935136592545.jpg" alt="Forever" class="w-full h-auto object-cover rounded" onerror="this.src='https://via.placeholder.com/300x400?text=Photo+3'">
-                <p class="text-center font-['Dancing_Script'] text-2xl text-rose-600 mt-4 font-bold">Forever</p>
+                <p class="text-center font-['Dancing_Script'] text-[12px] md:text-2xl text-rose-600 mt-1 md:mt-4 font-bold">Forever</p>
             </div>
+            
         </div>
 
-        <div class="absolute bottom-10 text-rose-500 flex flex-col items-center bounce cursor-pointer" onclick="toggleMusicAndScroll()" style="animation-delay: 5s; opacity: 0; animation: fadeIn 1s forwards 5s, bounce 2s infinite 5s;">
-            <p class="text-sm mb-2 uppercase tracking-widest font-semibold">Tap to Reveal</p>
+        <div class="absolute bottom-10 text-rose-500 flex flex-col items-center bounce cursor-pointer" onclick="window.scrollBy({ top: window.innerHeight / 1.5, behavior: 'smooth' })" style="animation-delay: 2s; opacity: 0; animation: fadeIn 1s forwards 2s, bounce 2s infinite 2s;">
+            <p class="text-sm mb-2 uppercase tracking-widest font-semibold">Scroll Down</p>
             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg>
         </div>
     </div>
 
-    <div class="min-h-screen flex flex-col items-center justify-center p-6 relative z-10 reveal">
-        <h2 class="text-4xl md:text-5xl text-rose-800 font-bold mb-10 font-['Dancing_Script']">A Secret Note</h2>
+    <!-- 3. SECRET NOTE SECTION -->
+    <div class="min-h-screen flex flex-col items-center justify-center p-4 md:p-6 relative z-10 reveal">
+        <h2 class="text-4xl md:text-5xl text-rose-800 font-bold mb-8 md:mb-10 font-['Dancing_Script']">A Secret Note</h2>
         
-        <div class="letter-paper p-8 md:p-12 max-w-2xl w-full text-base md:text-lg mt-2">
-            <p class="font-['Noto_Sans_Myanmar'] text-xl md:text-2xl mb-6 text-rose-700 font-semibold text-center">"ကျွန်တော့်ရဲ့ မိန်းမလှလေး၊ ကျွန်တော့်ရဲ့ ဂုဏ်ယူရဆုံး ရတနာလေး" 🤍</p>
+        <div class="letter-paper p-6 md:p-12 max-w-2xl w-full text-base md:text-lg mt-2">
+            <p class="font-['Noto_Sans_Myanmar'] text-lg md:text-2xl mb-6 text-rose-700 font-semibold text-center">"ကျွန်တော့်ရဲ့ မိန်းမလှလေး၊ ကျွန်တော့်ရဲ့ ဂုဏ်ယူရဆုံး ရတနာလေး" 🤍</p>
             
-            <div class="myanmar-text text-justify mt-8">
-                <p class="mb-6">လွန်ခဲ့တဲ့ နှစ်အနည်းငယ်ကသာ တစ်စုံတစ်ယောက်က ကျွန်တော့်လို လူတစ်ယောက် — သူများထက် ၁၁ နှစ် ပိုကြီးပြီး၊ အကျင့်စရိုက်တွေ ပုံသေဖြစ်နေကာ၊ အသက်ကြီးလာတာကို ငြိမ်သက်စွာ လက်ခံထားတဲ့သူတစ်ယောက်ဟာ — သူများနဲ့မတူ ထူးခြားလှပတဲ့ မိန်းကလေးတစ်ယောက်နဲ့ ဆုံစည်းရလိမ့်မယ်လို့ ပြောခဲ့ရင် ကျွန်တော် ရယ်မောပစ်မိမှာပါ။</p>
+            <div class="myanmar-text text-justify mt-6 md:mt-8 text-sm md:text-base">
+                <p class="mb-4 md:mb-6">လွန်ခဲ့တဲ့ နှစ်အနည်းငယ်ကသာ တစ်စုံတစ်ယောက်က ကျွန်တော့်လို လူတစ်ယောက် — သူများထက် ၁၁ နှစ် ပိုကြီးပြီး၊ အကျင့်စရိုက်တွေ ပုံသေဖြစ်နေကာ၊ အသက်ကြီးလာတာကို ငြိမ်သက်စွာ လက်ခံထားတဲ့သူတစ်ယောက်ဟာ — သူများနဲ့မတူ ထူးခြားလှပတဲ့ မိန်းကလေးတစ်ယောက်နဲ့ ဆုံစည်းရလိမ့်မယ်လို့ ပြောခဲ့ရင် ကျွန်တော် ရယ်မောပစ်မိမှာပါ။</p>
                 
-                <p class="mb-6">ဒါပေမဲ့ အခုတော့ ကျွန်တော့်ထက် ၁၁ နှစ် ငယ်တဲ့ ဇနီးလေးကို ငေးကြည့်ရင်း 'ငါ ဘဝဟောင်းက ဘာကောင်းမှုတွေ လုပ်ခဲ့လို့များ ဒီလို ကျေးဇူးတရားမျိုး ရရှိခဲ့ရတာလဲ' လို့ တွေးတောမိနေပါတယ်။ သူ့ကို ကြည့်လိုက်တိုင်း ကျွန်တော့်ရင်ထဲမှာ ဖခင်တစ်ယောက်လို နွေးထွေးတဲ့ မေတ္တာတရားတွေ တိုးဝင်လာတတ်ပါတယ် — သူ့ကို ရင်ခွင်ထဲ ထည့်ထားချင်စိတ်၊ ဒီကမ္ဘာကြီးရဲ့ အေးစက်တဲ့ လေပြင်းတွေဒဏ်ကနေ ကာကွယ်ပေးချင်စိတ်နဲ့ အဆုံးအစမရှိ အလိုလိုက်ချင်စိတ်တွေကို ဖြစ်ပေါ်စေတဲ့ နက်ရှိုင်းတဲ့ ကာကွယ်စောင့်ရှောက်လိုသော ချစ်ခြင်းမျိုးပါ။</p>
+                <p class="mb-4 md:mb-6">ဒါပေမဲ့ အခုတော့ ကျွန်တော့်ထက် ၁၁ နှစ် ငယ်တဲ့ ဇနီးလေးကို ငေးကြည့်ရင်း 'ငါ ဘဝဟောင်းက ဘာကောင်းမှုတွေ လုပ်ခဲ့လို့များ ဒီလို ကျေးဇူးတရားမျိုး ရရှိခဲ့ရတာလဲ' လို့ တွေးတောမိနေပါတယ်။ သူ့ကို ကြည့်လိုက်တိုင်း ကျွန်တော့်ရင်ထဲမှာ ဖခင်တစ်ယောက်လို နွေးထွေးတဲ့ မေတ္တာတရားတွေ တိုးဝင်လာတတ်ပါတယ် — သူ့ကို ရင်ခွင်ထဲ ထည့်ထားချင်စိတ်၊ ဒီကမ္ဘာကြီးရဲ့ အေးစက်တဲ့ လေပြင်းတွေဒဏ်ကနေ ကာကွယ်ပေးချင်စိတ်နဲ့ အဆုံးအစမရှိ အလိုလိုက်ချင်စိတ်တွေကို ဖြစ်ပေါ်စေတဲ့ နက်ရှိုင်းတဲ့ ကာကွယ်စောင့်ရှောက်လိုသော ချစ်ခြင်းမျိုးပါ။</p>
 
-                <p class="mb-6">ကျွန်တော်တို့ မင်္ဂလာမဆောင်ခင်က သူ့အရွယ်လေး အရမ်းငယ်သေးတာကို မြင်တော့ အိမ်ထောင်တစ်ခုကို ထိန်းသိမ်းရတဲ့ တာဝန်ဝတ္တရားတွေကို သူ နိုင်နင်းစွာ ထမ်းဆောင်နိုင်ပါ့မလားလို့ တွေးမိခဲ့ဖူးပါတယ်။ ဒါပေမဲ့ ကျွန်တော့်ရဲ့ ဇနီးအဖြစ် ကျွန်တော့်အိမ်ထဲကို လှမ်းဝင်လာတဲ့ စက္ကန့်ကစလို့ သူ ကျွန်တော့်ကို လုံးဝ အံ့အားသင့်သွားစေခဲ့ပါတယ်။ သူဟာ ကျွန်တော် စိတ်ကူးယဉ်ခဲ့ဖူးသမျှထဲမှာ အတော်ဆုံး အိမ်ရှင်မကောင်းတစ်ယောက်ပါပဲ။</p>
+                <p class="mb-4 md:mb-6">ကျွန်တော်တို့ မင်္ဂလာမဆောင်ခင်က သူ့အရွယ်လေး အရမ်းငယ်သေးတာကို မြင်တော့ အိမ်ထောင်တစ်ခုကို ထိန်းသိမ်းရတဲ့ တာဝန်ဝတ္တရားတွေကို သူ နိုင်နင်းစွာ ထမ်းဆောင်နိုင်ပါ့မလားလို့ တွေးမိခဲ့ဖူးပါတယ်။ ဒါပေမဲ့ ကျွန်တော့်ရဲ့ ဇနီးအဖြစ် ကျွန်တော့်အိမ်ထဲကို လှမ်းဝင်လာတဲ့ စက္ကန့်ကစလို့ သူ ကျွန်တော့်ကို လုံးဝ အံ့အားသင့်သွားစေခဲ့ပါတယ်။ သူဟာ ကျွန်တော် စိတ်ကူးယဉ်ခဲ့ဖူးသမျှထဲမှာ အတော်ဆုံး အိမ်ရှင်မကောင်းတစ်ယောက်ပါပဲ။</p>
 
-                <p class="mb-6">အမှန်အတိုင်း ပြောရရင်တော့... အခါခါ စိတ်ထဲမှာ မတန်ဘူးလို့ ခံစားရတာမျိုး ရှိပါတယ်။ သူ့မှာ လူငယ်ဘဝ အပြည့်ရှိခဲ့ပြီး ရွေးချယ်စရာတွေ အများကြီးရှိခဲ့ပေမဲ့ ကျွန်တော့်ကိုပဲ ရွေးချယ်ခဲ့တာပါ။ သူဟာ ကျွန်တော့်ရဲ့ ဇနီးဖြစ်ရုံတင် မဟုတ်ပါဘူး။ သူဟာ ကျွန်တော့်ရဲ့ ဂုဏ်ယူမှု၊ ကျွန်တော့်ဘဝရဲ့ အကြီးမားဆုံး ကောင်းချီး ဖြစ်တာမို့ ကျွန်တော့်မှာရှိတဲ့ အရာအားလုံးနဲ့ ဘဝတစ်ခုလုံး ပေးဆပ်ပြီး ကာကွယ်ချစ်ခင်သွားမယ်ဆိုတဲ့ ကတိကိုထာဝရပေးပါတယ်။</p>
+                <p class="mb-4 md:mb-6">အမှန်အတိုင်း ပြောရရင်တော့... အခါခါ စိတ်ထဲမှာ မတန်ဘူးလို့ ခံစားရတာမျိုး ရှိပါတယ်။ သူ့မှာ လူငယ်ဘဝ အပြည့်ရှိခဲ့ပြီး ရွေးချယ်စရာတွေ အများကြီးရှိခဲ့ပေမဲ့ ကျွန်တော့်ကိုပဲ ရွေးချယ်ခဲ့တာပါ။ သူဟာ ကျွန်တော့်ရဲ့ ဇနီးဖြစ်ရုံတင် မဟုတ်ပါဘူး။ သူဟာ ကျွန်တော့်ရဲ့ ဂုဏ်ယူမှု၊ ကျွန်တော့်ဘဝရဲ့ အကြီးမားဆုံး ကောင်းချီး ဖြစ်တာမို့ ကျွန်တော့်မှာရှိတဲ့ အရာအားလုံးနဲ့ ဘဝတစ်ခုလုံး ပေးဆပ်ပြီး ကာကွယ်ချစ်ခင်သွားမယ်ဆိုတဲ့ ကတိကိုထာဝရပေးပါတယ်။</p>
             </div>
 
-            <div class="mt-12 pt-6 border-t border-rose-100 flex flex-col items-end">
-                <p class="text-rose-400 font-['Playfair_Display'] italic text-lg">Forever Yours,</p>
-                <p class="font-['Dancing_Script'] text-5xl text-rose-600 mt-2 font-bold">Ko Ko</p>
+            <div class="mt-10 pt-6 border-t border-rose-100 flex flex-col items-end">
+                <p class="text-rose-400 font-['Playfair_Display'] italic text-base md:text-lg">Forever Yours,</p>
+                <p class="font-['Dancing_Script'] text-4xl md:text-5xl text-rose-600 mt-2 font-bold">Ko Ko</p>
             </div>
         </div>
     </div>
 
-    <!-- 3. FINAL QUESTION SECTION -->
+    <!-- 4. FINAL QUESTION SECTION -->
     <div class="py-24 flex flex-col items-center justify-center relative z-10 reveal">
         <p class="text-4xl md:text-6xl font-['Dancing_Script'] text-rose-700 font-bold text-center px-4">Will you be my forever?</p>
         <div class="mt-6 flex gap-2 text-rose-400">
@@ -196,7 +219,6 @@
             heartsContainer.appendChild(heart);
             setTimeout(() => heart.remove(), 13000);
         }
-        setInterval(createHeart, 500);
 
         function reveal() {
             var reveals = document.querySelectorAll(".reveal");
@@ -228,9 +250,28 @@
             isPlaying = !isPlaying;
         }
 
-        function toggleMusicAndScroll() {
+        // --- NEW: Start Experience Function ---
+        function startExperience() {
+            const intro = document.getElementById('introOverlay');
+            intro.style.opacity = '0'; // Fade out overlay
+            
+            // Start hearts falling
+            setInterval(createHeart, 500);
+
+            // Play music automatically after tap
             if(!isPlaying) toggleMusic();
-            window.scrollBy({ top: window.innerHeight / 2, behavior: 'smooth' });
+            
+            // Show music button
+            musicBtn.classList.remove('hidden');
+
+            // Trigger polaroid entry animation
+            const images = document.querySelectorAll('.hero-img');
+            images.forEach(img => img.classList.add('animate'));
+
+            // Remove overlay completely after fade transition
+            setTimeout(() => {
+                intro.style.display = 'none';
+            }, 1000);
         }
     </script>
 </body>
