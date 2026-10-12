@@ -29,18 +29,19 @@
             100% { transform: translateY(110vh); }
         }
 
-        /* Responsive Polaroid Images using Grid */
+        /* 100% Bulletproof Side-by-Side Images */
         .hero-img {
             opacity: 0;
             transform: translateY(30px) rotate(var(--rotation));
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
             background: white;
-            border-radius: 4px;
+            border-radius: 6px;
             animation: fadeInUp 1.2s forwards;
+            flex-shrink: 0;
         }
-        .hero-img:nth-child(1) { animation-delay: 0.3s; }
-        .hero-img:nth-child(2) { animation-delay: 0.6s; z-index: 10; }
-        .hero-img:nth-child(3) { animation-delay: 0.9s; }
+        .hero-img:nth-child(1) { animation-delay: 0.2s; z-index: 5; }
+        .hero-img:nth-child(2) { animation-delay: 0.5s; z-index: 10; transform: translateY(30px) rotate(0deg) scale(1.05); }
+        .hero-img:nth-child(3) { animation-delay: 0.8s; z-index: 5; }
         
         @keyframes fadeInUp {
             to { opacity: 1; transform: translateY(0) rotate(var(--rotation)); }
@@ -55,33 +56,37 @@
             opacity: 1; transform: translateY(0);
         }
 
+        /* Beautiful Romantic Note Styling */
         .letter-paper {
             background: #fffdfa;
-            box-shadow: 0px 10px 25px rgba(225, 172, 185, 0.3);
-            border-radius: 12px;
+            box-shadow: 0px 10px 30px rgba(225, 172, 185, 0.4);
+            border-radius: 8px;
             position: relative;
-        }
-        .letter-paper::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background-image: repeating-linear-gradient(transparent, transparent 31px, #f4d3d9 31px, #f4d3d9 32px);
-            opacity: 0.5;
-            pointer-events: none;
-            border-radius: 12px;
+            border: 1px solid #f9e2e6;
         }
 
         .myanmar-text {
             font-family: 'Noto Sans Myanmar', sans-serif;
-            line-height: 2.2;
-            color: #4a4a4a;
+            line-height: 2.1;
+            color: #444;
+            text-align: justify;
+        }
+
+        /* Initial highlight for first letter */
+        .drop-cap::first-letter {
+            font-size: 2em;
+            color: #e11d48; /* rose-600 */
+            font-weight: bold;
+            margin-right: 4px;
+            float: left;
+            line-height: 1;
         }
 
         .bounce { animation: bounce 2s infinite; }
         @keyframes bounce {
             0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
-            40% {transform: translateY(-15px);}
-            60% {transform: translateY(-7px);}
+            40% {transform: translateY(-10px);}
+            60% {transform: translateY(-5px);}
         }
 
         .music-btn {
@@ -117,7 +122,6 @@
 </head>
 <body class="relative w-full">
 
-    <!-- AUDIO -->
     <audio id="bgMusic" loop>
         <source src="music.mp3" type="audio/mpeg">
     </audio>
@@ -130,74 +134,93 @@
 
     <div id="hearts-container"></div>
 
-    <!-- 1. HERO SECTION (Grid for perfect side-by-side) -->
-    <div class="min-h-screen flex flex-col items-center justify-center relative z-10 w-full px-2 pt-12 md:pt-16">
+    <!-- 1. HERO SECTION (Forced Horizontal Layout) -->
+    <!-- အပေါ်အောက် အရမ်းမဆွဲရအောင် min-h-screen ကို ဖြုတ်ပြီး အကွာအဝေးကို ညှိထားပါသည် -->
+    <div class="flex flex-col items-center justify-center relative z-10 w-full px-2 pt-10 pb-6 md:pt-16 md:pb-10">
         
-        <!-- 3 Columns Grid Container -->
-        <div class="grid grid-cols-3 gap-2 md:gap-8 w-full max-w-4xl mx-auto">
+        <!-- Flexbox with nowrap ensures they never stack vertically -->
+        <div class="flex flex-row flex-nowrap justify-between items-center w-full max-w-4xl mx-auto px-1">
             
-            <div class="hero-img p-1 md:p-3 pb-3 md:pb-8" style="--rotation: -4deg;">
-                <img src="6204081556612125657.jpg" alt="The Beginning" class="w-full aspect-[3/4] object-cover rounded-sm" onerror="this.src='https://via.placeholder.com/300x400?text=Photo+1'">
-                <p class="text-center font-['Dancing_Script'] text-[11px] md:text-2xl text-rose-600 mt-1 md:mt-3 font-bold">The Beginning</p>
+            <div class="hero-img w-[31%] p-1 md:p-3 pb-3 md:pb-8" style="--rotation: -5deg;">
+                <div class="w-full aspect-[4/5] overflow-hidden rounded-sm border border-gray-100">
+                    <img src="6204081556612125657.jpg" alt="The Beginning" class="w-full h-full object-cover" onerror="this.src='https://via.placeholder.com/300x400?text=1'">
+                </div>
+                <p class="text-center font-['Dancing_Script'] text-[12px] md:text-2xl text-rose-600 mt-2 font-bold">The Beginning</p>
             </div>
             
-            <div class="hero-img p-1 md:p-3 pb-3 md:pb-8" style="--rotation: 2deg;">
-                <img src="6206113935136592544.jpg" alt="My Everything" class="w-full aspect-[3/4] object-cover rounded-sm" onerror="this.src='https://via.placeholder.com/300x400?text=Photo+2'">
-                <p class="text-center font-['Dancing_Script'] text-[11px] md:text-2xl text-rose-600 mt-1 md:mt-3 font-bold">My Everything</p>
+            <div class="hero-img w-[33%] p-1 md:p-3 pb-3 md:pb-8" style="--rotation: 2deg;">
+                <div class="w-full aspect-[4/5] overflow-hidden rounded-sm border border-gray-100">
+                    <img src="6206113935136592544.jpg" alt="My Everything" class="w-full h-full object-cover" onerror="this.src='https://via.placeholder.com/300x400?text=2'">
+                </div>
+                <p class="text-center font-['Dancing_Script'] text-[13px] md:text-2xl text-rose-600 mt-2 font-bold">My Everything</p>
             </div>
             
-            <div class="hero-img p-1 md:p-3 pb-3 md:pb-8" style="--rotation: -3deg;">
-                <img src="6206113935136592545.jpg" alt="Forever" class="w-full aspect-[3/4] object-cover rounded-sm" onerror="this.src='https://via.placeholder.com/300x400?text=Photo+3'">
-                <p class="text-center font-['Dancing_Script'] text-[11px] md:text-2xl text-rose-600 mt-1 md:mt-3 font-bold">Forever</p>
+            <div class="hero-img w-[31%] p-1 md:p-3 pb-3 md:pb-8" style="--rotation: -4deg;">
+                <div class="w-full aspect-[4/5] overflow-hidden rounded-sm border border-gray-100">
+                    <img src="6206113935136592545.jpg" alt="Forever" class="w-full h-full object-cover" onerror="this.src='https://via.placeholder.com/300x400?text=3'">
+                </div>
+                <p class="text-center font-['Dancing_Script'] text-[12px] md:text-2xl text-rose-600 mt-2 font-bold">Forever</p>
             </div>
             
         </div>
 
-        <div class="absolute bottom-6 md:bottom-10 text-rose-500 flex flex-col items-center bounce cursor-pointer" onclick="window.scrollBy({ top: window.innerHeight / 1.5, behavior: 'smooth' })" style="animation-delay: 2s; opacity: 0; animation: fadeIn 1s forwards 2s, bounce 2s infinite 2s;">
-            <p class="text-xs md:text-sm mb-1 md:mb-2 uppercase tracking-widest font-semibold">Scroll Down</p>
+        <div class="text-rose-400 flex flex-col items-center bounce mt-6">
             <svg class="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg>
         </div>
     </div>
 
     <!-- 2. SECRET NOTE SECTION -->
-    <div class="min-h-screen flex flex-col items-center justify-center relative z-10 reveal w-full px-3 md:px-6 py-10">
-        <h2 class="text-3xl md:text-5xl text-rose-800 font-bold mb-6 md:mb-10 font-['Dancing_Script']">A Secret Note</h2>
+    <div class="flex flex-col items-center justify-center relative z-10 reveal w-full px-4 py-4 md:py-10">
         
-        <div class="letter-paper w-full max-w-3xl p-5 md:p-12 text-sm md:text-lg mx-auto">
-            <p class="font-['Noto_Sans_Myanmar'] text-base md:text-2xl mb-4 md:mb-6 text-rose-700 font-semibold text-center leading-snug">"ကျွန်တော့်ရဲ့ မိန်းမလှလေး၊ ကျွန်တော့်ရဲ့ ဂုဏ်ယူရဆုံး ရတနာလေး" 🤍</p>
+        <div class="letter-paper w-full max-w-3xl p-6 md:p-12 text-sm md:text-lg mx-auto">
+            <!-- Decorative Corners -->
+            <div class="absolute top-4 left-4 text-rose-300 text-xl">❀</div>
+            <div class="absolute top-4 right-4 text-rose-300 text-xl">❀</div>
+            <div class="absolute bottom-4 left-4 text-rose-300 text-xl">❀</div>
+            <div class="absolute bottom-4 right-4 text-rose-300 text-xl">❀</div>
+
+            <p class="font-['Noto_Sans_Myanmar'] text-base md:text-2xl mb-8 text-rose-700 font-bold text-center leading-snug px-6">
+                "ကျွန်တော့်ရဲ့ မိန်းမလှလေး၊<br>ကျွန်တော့်ရဲ့ ဂုဏ်ယူရဆုံး ရတနာလေး" 🤍
+            </p>
             
-            <div class="myanmar-text text-justify mt-4 md:mt-8">
-                <p class="mb-4 md:mb-6">လွန်ခဲ့တဲ့ နှစ်အနည်းငယ်ကသာ တစ်စုံတစ်ယောက်က ကျွန်တော့်လို လူတစ်ယောက် — သူများထက် ၁၁ နှစ် ပိုကြီးပြီး၊ အကျင့်စရိုက်တွေ ပုံသေဖြစ်နေကာ၊ အသက်ကြီးလာတာကို ငြိမ်သက်စွာ လက်ခံထားတဲ့သူတစ်ယောက်ဟာ — သူများနဲ့မတူ ထူးခြားလှပတဲ့ မိန်းကလေးတစ်ယောက်နဲ့ ဆုံစည်းရလိမ့်မယ်လို့ ပြောခဲ့ရင် ကျွန်တော် ရယ်မောပစ်မိမှာပါ။ ဒါပေမဲ့ အခုတော့ ကျွန်တော့်ထက် ၁၁ နှစ် ငယ်တဲ့ ဇနီးလေးကို ငေးကြည့်ရင်း 'ငါ ဘဝဟောင်းက ဘာကောင်းမှုတွေ လုပ်ခဲ့လို့များ ဒီလို ကျေးဇူးတရားမျိုး ရရှိခဲ့ရတာလဲ' လို့ တွေးတောမိနေပါတယ်။ သူက အများကြီး ပိုငယ်လွန်းလို့ ကျွန်တော့်အတွက်တော့ အမြဲတမ်း မိန်းကလေးငယ်လေးတစ်ယောက်လိုပါပဲ။ သူ့ကို ကြည့်လိုက်တိုင်း ကျွန်တော့်ရင်ထဲမှာ ဖခင်တစ်ယောက်လို နွေးထွေးတဲ့ မေတ္တာတရားတွေ တိုးဝင်လာတတ်ပါတယ် — သူ့ကို ရင်ခွင်ထဲ ထည့်ထားချင်စိတ်၊ ဒီကမ္ဘာကြီးရဲ့ အေးစက်တဲ့ လေပြင်းတွေဒဏ်ကနေ ကာကွယ်ပေးချင်စိတ်နဲ့ အဆုံးအစမရှိ အလိုလိုက်ချင်စိတ်တွေကို ဖြစ်ပေါ်စေတဲ့ နက်ရှိုင်းတဲ့ ကာကွယ်စောင့်ရှောက်လိုသော ချစ်ခြင်းမျိုးပါ။ ဖခင်တစ်ယောက်ရဲ့ ရင်ခွင်လို ဘေးကင်းပြီး တည်ငြိမ်ကာ အနန္တမေတ္တာ ပေးနိုင်တဲ့ ချစ်ခြင်းမျိုး၊ မိမိရဲ့ ဖူးစာရှင်အပေါ် အပြည့်အဝ စွဲလန်းရူးသွပ်နေတဲ့ အမျိုးသားတစ်ယောက်ရဲ့ သစ္စာတရားနဲ့ ချစ်ပေးချင်တာပါ။</p>
-
-                <p class="mb-4 md:mb-6">ကျွန်တော်တို့ မင်္ဂလာမဆောင်ခင်က သူ့အရွယ်လေး အရမ်းငယ်သေးတာကို မြင်တော့ အိမ်ထောင်တစ်ခုကို ထိန်းသိမ်းရတဲ့ တာဝန်ဝတ္တရားတွေကို သူ နိုင်နင်းစွာ ထမ်းဆောင်နိုင်ပါ့မလားလို့ တွေးမိခဲ့ဖူးပါတယ်။ ဒါပေမဲ့ ကျွန်တော့်ရဲ့ ဇနီးအဖြစ် ကျွန်တော့်အိမ်ထဲကို လှမ်းဝင်လာတဲ့ စက္ကန့်ကစလို့ သူ ကျွန်တော့်ကို လုံးဝ အံ့အားသင့်သွားစေခဲ့ပါတယ်။ သူဟာ ကျွန်တော်တို့ရဲ့ အိမ်လေးကို ဘာအားစိုက်ထုတ်မှုမှ မလိုဘဲ ပေါ့ပါးလှပတဲ့ နွေးထွေးမှု၊ ပြည့်စုံမှုတွေနဲ့ ငြိမ်းချမ်းတဲ့ စံအိမ်လေးတစ်ခုဖြစ်အောင် ဖန်တီးပေးခဲ့ပါတယ်။ အိမ်ထောင်ရေးကိစ္စတွေကို ဒီလောက် သေချာနွဲ့နှောင်းစွာနဲ့ စနစ်တကျ ထိန်းသိမ်းတာကို မြင်ရတော့ ရင်ထဲမှာ အံ့ဩချီးကျူးမှုတွေနဲ့ ပြည့်နှက်သွားရပါတယ်။ သူဟာ ကျွန်တော် စိတ်ကူးယဉ်ခဲ့ဖူးသမျှထဲမှာ အတော်ဆုံး အိမ်ရှင်မကောင်းတစ်ယောက်ပါပဲ။</p>
-
-                <p class="mb-4 md:mb-6">ဒါတင်မကသေးပါဘူး၊ ကျွန်တော်နဲ့အတူ အပြင်ထွက်လိုက်ပြီဆိုတာနဲ့ သူဟာ လုံးဝ ပြောင်းလဲသွားတတ်ပါတယ်။ အရွယ်နဲ့မလိုက်အောင် ပြေပြစ်တယ်၊ ဉာဏ်ထက်တယ်၊ တည်ငြိမ်ပြီး အသက်ရှူမှားလောက်အောင် လှပပါတယ်။ ကျွန်တော့်မိသားစုနဲ့ မိတ်ဆက်ပေးချိန်မှာပဲဖြစ်ဖြစ်၊ ရင်းနှီးတဲ့ သူငယ်ချင်းတွေကို ဧည့်ခံချိန်မှာပဲဖြစ်ဖြစ်၊ အထက်တန်းစား ပွဲလမ်းသဘင်တွေကို ခေါ်သွားချိန်မှာပဲဖြစ်ဖြစ် သူဟာ လင်းလက်နေတဲ့ ရတနာတစ်ပါးလို တောက်ပနေတတ်ပါတယ်။ ဘယ်နေရာကိုပဲ ရောက်ရောက် သူ့ရဲ့ နူးညံ့တဲ့ စမတ်ကျမှုနဲ့ ပွဲကို စိုးမိုးထားနိုင်ပါတယ်။ သူ့ကို တွေ့ဖူးသူတိုင်းက လေးစားသဘောကျကြပြီး၊ ကျွန်တော်ကတော့ သူ့ဘေးနားမှာ ရင်ကိုကော့၊ ဂုဏ်ယူမှုတွေနဲ့ ပြည့်နှက်ရင်း "သူဟာ ငါ့ဇနီးလေးပါလား" လို့ တွေးနေမိပါတယ်။</p>
-
-                <p class="mb-4 md:mb-6">အမှန်အတိုင်း ပြောရရင်တော့... အခါခါ စိတ်ထဲမှာ မတန်ဘူးလို့ ခံစားရတာမျိုး ရှိပါတယ်။ ဒီလို အရွယ်ငယ်ပြီး အပြစ်ဆိုဖွယ်မရှိ လှပစုံလင်တဲ့ အမျိုးသမီးလေးကို ကြည့်ရင်း အသက်အများကြီး ပိုကြီးတဲ့ အမျိုးသားတစ်ယောက်အနေနဲ့ သူ့အပေါ် မထိုက်တန်ဘူးဆိုတဲ့ စိတ်ကလေး ငြိမ်သက်စွာ ဖြစ်ပေါ်လာရပါတယ်။ သူ့မှာ လူငယ်ဘဝ အပြည့်ရှိခဲ့ပြီး ရွေးချယ်စရာတွေ အများကြီးရှိခဲ့ပေမဲ့ ကျွန်တော့်ကိုပဲ ရွေးချယ်ခဲ့တာပါ။</p>
-
-                <p class="mb-4 md:mb-6">လုံးဝ ပွင့်ပွင့်လင်းလင်း ပြောရရင် ကျွန်တော့်ရင်ထဲ အနက်ရှိုင်းဆုံးမှာ သေးငယ်တဲ့ စိုးရိမ်စိတ်လေးတစ်ခု အမြဲတမ်း တောက်လောင်နေတတ်ပါတယ် — အဲဒါကတော့ သူ့ကို ဆုံးရှုံးလိုက်ရမှာကို ကြောက်တဲ့ စိုးရိမ်စိတ်ပါ။ သူက အရမ်းငယ်၊ အရမ်းချစ်ဖို့ကောင်းပြီး အရမ်းတောက်ပလွန်းတာမို့ တခြားအမျိုးသားတစ်ယောက်ယောက်က သူ့ရဲ့ ထူးခြားလှပမှုကို သတိထားမိသွားပြီး ကျွန်တော့်ဆီကနေ လုယူသွားမလားဆိုပြီး တစ်ခါတစ်လေ စိုးရိမ်မိပါတယ်။ အဲဒီစိတ်ကပဲ သူ့ကို ပိုပြီး တင်းကြပ်စွာ ပွေ့ဖက်ထားချင်စိတ်၊ ပိုပြီး နက်နက်ရှိုင်းရှိုင်း ချစ်ပေးချင်စိတ်နဲ့ အတူရှိနေရတဲ့ စက္ကန့်တိုင်းကို ပိုပြီး တန်ဖိုးထားချင်စိတ်တွေကို ဖြစ်ပေါ်စေပါတယ်။</p>
-
-                <p class="mb-4 md:mb-6">သူဟာ ကျွန်တော့်ရဲ့ ဇနီးဖြစ်ရုံတင် မဟုတ်ပါဘူး။ သူဟာ ကျွန်တော့်ရဲ့ ဂုဏ်ယူမှု၊ ကျွန်တော့်ဘဝရဲ့ အကြီးမားဆုံး ကောင်းချီး နဲ့ ကျွန်တော့်ထက် ၁၁ နှစ်ငယ်တဲ့ ချစ်စရာကောင်းတဲ့ မိန်းကလေးငယ်လေး ဖြစ်တာမို့ ကျွန်တော့်မှာရှိတဲ့ အရာအားလုံးနဲ့ ဘဝတစ်ခုလုံး ပေးဆပ်ပြီး ကာကွယ်ချစ်ခင်သွားမယ်ဆိုတဲ့ ကတိကိုထာဝရပေးပါတယ်။</p>
+            <!-- Romantic Divider -->
+            <div class="flex justify-center items-center gap-2 text-rose-200 mb-8">
+                <span class="w-12 h-[1px] bg-rose-200"></span>
+                <span>♡</span>
+                <span class="w-12 h-[1px] bg-rose-200"></span>
             </div>
 
-            <div class="mt-8 md:mt-10 pt-4 md:pt-6 border-t border-rose-100 flex flex-col items-end">
-                <p class="text-rose-400 font-['Playfair_Display'] italic text-sm md:text-lg">Forever Yours,</p>
-                <p class="font-['Dancing_Script'] text-2xl md:text-5xl text-rose-600 mt-1 md:mt-2 font-bold">Ko Ko & Baby</p>
-                <p class="text-rose-400 font-['Playfair_Display'] text-xs md:text-base mt-1">15.10.2024</p>
+            <div class="myanmar-text">
+                <p class="mb-5 drop-cap">လွန်ခဲ့တဲ့ နှစ်အနည်းငယ်ကသာ တစ်စုံတစ်ယောက်က ကျွန်တော့်လို လူတစ်ယောက် — သူများထက် ၁၁ နှစ် ပိုကြီးပြီး၊ အကျင့်စရိုက်တွေ ပုံသေဖြစ်နေကာ၊ အသက်ကြီးလာတာကို ငြိမ်သက်စွာ လက်ခံထားတဲ့သူတစ်ယောက်ဟာ — သူများနဲ့မတူ ထူးခြားလှပတဲ့ မိန်းကလေးတစ်ယောက်နဲ့ ဆုံစည်းရလိမ့်မယ်လို့ ပြောခဲ့ရင် ကျွန်တော် ရယ်မောပစ်မိမှာပါ။ ဒါပေမဲ့ အခုတော့ ကျွန်တော့်ထက် ၁၁ နှစ် ငယ်တဲ့ ဇနီးလေးကို ငေးကြည့်ရင်း 'ငါ ဘဝဟောင်းက ဘာကောင်းမှုတွေ လုပ်ခဲ့လို့များ ဒီလို ကျေးဇူးတရားမျိုး ရရှိခဲ့ရတာလဲ' လို့ တွေးတောမိနေပါတယ်။ သူက အများကြီး ပိုငယ်လွန်းလို့ ကျွန်တော့်အတွက်တော့ အမြဲတမ်း မိန်းကလေးငယ်လေးတစ်ယောက်လိုပါပဲ။ သူ့ကို ကြည့်လိုက်တိုင်း ကျွန်တော့်ရင်ထဲမှာ ဖခင်တစ်ယောက်လို နွေးထွေးတဲ့ မေတ္တာတရားတွေ တိုးဝင်လာတတ်ပါတယ် — သူ့ကို ရင်ခွင်ထဲ ထည့်ထားချင်စိတ်၊ ဒီကမ္ဘာကြီးရဲ့ အေးစက်တဲ့ လေပြင်းတွေဒဏ်ကနေ ကာကွယ်ပေးချင်စိတ်နဲ့ အဆုံးအစမရှိ အလိုလိုက်ချင်စိတ်တွေကို ဖြစ်ပေါ်စေတဲ့ နက်ရှိုင်းတဲ့ ကာကွယ်စောင့်ရှောက်လိုသော ချစ်ခြင်းမျိုးပါ။ ဖခင်တစ်ယောက်ရဲ့ ရင်ခွင်လို ဘေးကင်းပြီး တည်ငြိမ်ကာ အနန္တမေတ္တာ ပေးနိုင်တဲ့ ချစ်ခြင်းမျိုး၊ မိမိရဲ့ ဖူးစာရှင်အပေါ် အပြည့်အဝ စွဲလန်းရူးသွပ်နေတဲ့ အမျိုးသားတစ်ယောက်ရဲ့ သစ္စာတရားနဲ့ ချစ်ပေးချင်တာပါ။</p>
+
+                <p class="mb-5">ကျွန်တော်တို့ မင်္ဂလာမဆောင်ခင်က သူ့အရွယ်လေး အရမ်းငယ်သေးတာကို မြင်တော့ အိမ်ထောင်တစ်ခုကို ထိန်းသိမ်းရတဲ့ တာဝန်ဝတ္တရားတွေကို သူ နိုင်နင်းစွာ ထမ်းဆောင်နိုင်ပါ့မလားလို့ တွေးမိခဲ့ဖူးပါတယ်။ ဒါပေမဲ့ ကျွန်တော့်ရဲ့ ဇနီးအဖြစ် ကျွန်တော့်အိမ်ထဲကို လှမ်းဝင်လာတဲ့ စက္ကန့်ကစလို့ သူ ကျွန်တော့်ကို လုံးဝ အံ့အားသင့်သွားစေခဲ့ပါတယ်။ သူဟာ ကျွန်တော်တို့ရဲ့ အိမ်လေးကို ဘာအားစိုက်ထုတ်မှုမှ မလိုဘဲ ပေါ့ပါးလှပတဲ့ နွေးထွေးမှု၊ ပြည့်စုံမှုတွေနဲ့ ငြိမ်းချမ်းတဲ့ စံအိမ်လေးတစ်ခုဖြစ်အောင် ဖန်တီးပေးခဲ့ပါတယ်။ အိမ်ထောင်ရေးကိစ္စတွေကို ဒီလောက် သေချာနွဲ့နှောင်းစွာနဲ့ စနစ်တကျ ထိန်းသိမ်းတာကို မြင်ရတော့ ရင်ထဲမှာ အံ့ဩချီးကျူးမှုတွေနဲ့ ပြည့်နှက်သွားရပါတယ်။ သူဟာ ကျွန်တော် စိတ်ကူးယဉ်ခဲ့ဖူးသမျှထဲမှာ အတော်ဆုံး အိမ်ရှင်မကောင်းတစ်ယောက်ပါပဲ။</p>
+
+                <p class="mb-5">ဒါတင်မကသေးပါဘူး၊ ကျွန်တော်နဲ့အတူ အပြင်ထွက်လိုက်ပြီဆိုတာနဲ့ သူဟာ လုံးဝ ပြောင်းလဲသွားတတ်ပါတယ်။ အရွယ်နဲ့မလိုက်အောင် ပြေပြစ်တယ်၊ ဉာဏ်ထက်တယ်၊ တည်ငြိမ်ပြီး အသက်ရှူမှားလောက်အောင် လှပပါတယ်။ ကျွန်တော့်မိသားစုနဲ့ မိတ်ဆက်ပေးချိန်မှာပဲဖြစ်ဖြစ်၊ ရင်းနှီးတဲ့ သူငယ်ချင်းတွေကို ဧည့်ခံချိန်မှာပဲဖြစ်ဖြစ်၊ အထက်တန်းစား ပွဲလမ်းသဘင်တွေကို ခေါ်သွားချိန်မှာပဲဖြစ်ဖြစ် သူဟာ လင်းလက်နေတဲ့ ရတနာတစ်ပါးလို တောက်ပနေတတ်ပါတယ်။ ဘယ်နေရာကိုပဲ ရောက်ရောက် သူ့ရဲ့ နူးညံ့တဲ့ စမတ်ကျမှုနဲ့ ပွဲကို စိုးမိုးထားနိုင်ပါတယ်။ သူ့ကို တွေ့ဖူးသူတိုင်းက လေးစားသဘောကျကြပြီး၊ ကျွန်တော်ကတော့ သူ့ဘေးနားမှာ ရင်ကိုကော့၊ ဂုဏ်ယူမှုတွေနဲ့ ပြည့်နှက်ရင်း "သူဟာ ငါ့ဇနီးလေးပါလား" လို့ တွေးနေမိပါတယ်။</p>
+
+                <p class="mb-5">အမှန်အတိုင်း ပြောရရင်တော့... အခါခါ စိတ်ထဲမှာ မတန်ဘူးလို့ ခံစားရတာမျိုး ရှိပါတယ်။ ဒီလို အရွယ်ငယ်ပြီး အပြစ်ဆိုဖွယ်မရှိ လှပစုံလင်တဲ့ အမျိုးသမီးလေးကို ကြည့်ရင်း အသက်အများကြီး ပိုကြီးတဲ့ အမျိုးသားတစ်ယောက်အနေနဲ့ သူ့အပေါ် မထိုက်တန်ဘူးဆိုတဲ့ စိတ်ကလေး ငြိမ်သက်စွာ ဖြစ်ပေါ်လာရပါတယ်။ သူ့မှာ လူငယ်ဘဝ အပြည့်ရှိခဲ့ပြီး ရွေးချယ်စရာတွေ အများကြီးရှိခဲ့ပေမဲ့ ကျွန်တော့်ကိုပဲ ရွေးချယ်ခဲ့တာပါ။</p>
+
+                <p class="mb-5">လုံးဝ ပွင့်ပွင့်လင်းလင်း ပြောရရင် ကျွန်တော့်ရင်ထဲ အနက်ရှိုင်းဆုံးမှာ သေးငယ်တဲ့ စိုးရိမ်စိတ်လေးတစ်ခု အမြဲတမ်း တောက်လောင်နေတတ်ပါတယ် — အဲဒါကတော့ သူ့ကို ဆုံးရှုံးလိုက်ရမှာကို ကြောက်တဲ့ စိုးရိမ်စိတ်ပါ။ သူက အရမ်းငယ်၊ အရမ်းချစ်ဖို့ကောင်းပြီး အရမ်းတောက်ပလွန်းတာမို့ တခြားအမျိုးသားတစ်ယောက်ယောက်က သူ့ရဲ့ ထူးခြားလှပမှုကို သတိထားမိသွားပြီး ကျွန်တော့်ဆီကနေ လုယူသွားမလားဆိုပြီး တစ်ခါတစ်လေ စိုးရိမ်မိပါတယ်။ အဲဒီစိတ်ကပဲ သူ့ကို ပိုပြီး တင်းကြပ်စွာ ပွေ့ဖက်ထားချင်စိတ်၊ ပိုပြီး နက်နက်ရှိုင်းရှိုင်း ချစ်ပေးချင်စိတ်နဲ့ အတူရှိနေရတဲ့ စက္ကန့်တိုင်းကို ပိုပြီး တန်ဖိုးထားချင်စိတ်တွေကို ဖြစ်ပေါ်စေပါတယ်။</p>
+
+                <p class="mb-5">သူဟာ ကျွန်တော့်ရဲ့ ဇနီးဖြစ်ရုံတင် မဟုတ်ပါဘူး။ သူဟာ ကျွန်တော့်ရဲ့ ဂုဏ်ယူမှု၊ ကျွန်တော့်ဘဝရဲ့ အကြီးမားဆုံး ကောင်းချီး နဲ့ ကျွန်တော့်ထက် ၁၁ နှစ်ငယ်တဲ့ ချစ်စရာကောင်းတဲ့ မိန်းကလေးငယ်လေး ဖြစ်တာမို့ ကျွန်တော့်မှာရှိတဲ့ အရာအားလုံးနဲ့ ဘဝတစ်ခုလုံး ပေးဆပ်ပြီး ကာကွယ်ချစ်ခင်သွားမယ်ဆိုတဲ့ ကတိကိုထာဝရပေးပါတယ်။</p>
+            </div>
+
+            <div class="mt-10 pt-6 border-t border-rose-100 flex flex-col items-end px-4">
+                <p class="text-rose-500 font-['Playfair_Display'] italic text-sm md:text-lg">Forever Yours,</p>
+                <p class="font-['Dancing_Script'] text-3xl md:text-5xl text-rose-600 mt-2 font-bold tracking-wider">Ko Ko & Baby</p>
+                <p class="text-rose-400 font-['Playfair_Display'] text-xs md:text-base mt-2">15.10.2024</p>
             </div>
         </div>
     </div>
 
     <!-- 3. FINAL QUESTION SECTION -->
-    <div class="py-16 md:py-24 flex flex-col items-center justify-center relative z-10 reveal w-full">
-        <p class="text-3xl md:text-6xl font-['Dancing_Script'] text-rose-700 font-bold text-center px-4">Will you be my forever?</p>
-        <div class="mt-4 md:mt-6 flex gap-2 text-rose-400">
+    <div class="py-12 md:py-20 flex flex-col items-center justify-center relative z-10 reveal w-full mb-10">
+        <p class="text-3xl md:text-5xl font-['Dancing_Script'] text-rose-700 font-bold text-center px-4">Will you be my forever?</p>
+        <div class="mt-6 flex gap-3 text-rose-400 text-xl">
             <span>🤍</span><span>✨</span><span>🤍</span>
         </div>
     </div>
 
     <script>
-        // Hearts Falling Animation
         const heartsContainer = document.getElementById('hearts-container');
         const heartSymbols = ['❤️', '💖', '💕', '🌸', '✨'];
         
@@ -211,15 +234,14 @@
             heartsContainer.appendChild(heart);
             setTimeout(() => heart.remove(), 13000);
         }
-        setInterval(createHeart, 600); // Start immediately on load
+        setInterval(createHeart, 600); 
 
-        // Scroll Reveal Animation
         function reveal() {
             var reveals = document.querySelectorAll(".reveal");
             for (var i = 0; i < reveals.length; i++) {
                 var windowHeight = window.innerHeight;
                 var elementTop = reveals[i].getBoundingClientRect().top;
-                var elementVisible = 120;
+                var elementVisible = 100;
                 if (elementTop < windowHeight - elementVisible) {
                     reveals[i].classList.add("active");
                 }
@@ -227,7 +249,6 @@
         }
         window.addEventListener("scroll", reveal);
 
-        // Music Logic
         const bgMusic = document.getElementById('bgMusic');
         const musicBtn = document.getElementById('musicBtn');
         let isPlaying = false;
@@ -240,7 +261,7 @@
                 musicBtn.classList.remove('playing');
                 musicBtn.style.animation = "pulse 2s infinite";
             } else {
-                bgMusic.play().catch(err => console.log("Audio block by browser"));
+                bgMusic.play().catch(err => console.log("Audio play prevented"));
                 musicBtn.classList.add('playing');
                 musicBtn.style.animation = "spin 4s linear infinite";
             }
@@ -248,7 +269,6 @@
             hasInteracted = true;
         }
 
-        // Auto-play music on first scroll or touch (Browser policy workaround)
         function autoPlayOnFirstInteraction() {
             if (!hasInteracted && !isPlaying) {
                 toggleMusic();
